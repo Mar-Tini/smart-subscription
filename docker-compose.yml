@@ -56,12 +56,49 @@ services:
     networks:
       - smart-network
 
+   # GitLab CE (CI/CD)
+  gitlab:
+    image: gitlab/gitlab-ce:latest
+    container_name: smart-subscription-gitlab
+    restart: unless-stopped
+    hostname: gitlab.local
+    ports:
+      - "8080:80"
+      - "8443:443"
+      - "2222:22"
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://localhost:8080'
+    volumes:
+      - gitlab-config:/etc/gitlab
+      - gitlab-logs:/var/log/gitlab
+      - gitlab-data:/var/opt/gitlab
+    networks:
+      - smart-network
+
+  # GitLab Runner (exécution pipelines)
+  gitlab-runner:
+    image: gitlab/gitlab-runner:latest
+    container_name: smart-subscription-runner
+    restart: unless-stopped
+    depends_on:
+      - gitlab
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - gitlab-runner-config:/etc/gitlab-runner
+    networks:
+      - smart-network
+
 volumes:
   node_modules_volume:
   sonar-data:
   sonar-logs:
   sonar-extensions:
   sonar-db-data:
+  gitlab-config:
+  gitlab-logs:
+  gitlab-data:
+  gitlab-runner-config:
 
 networks:
   smart-network:
