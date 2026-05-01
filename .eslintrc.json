@@ -1,6 +1,11 @@
 {
   "env": { "node": true, "es6": true },
   "rules": {
-    "complexity": ["error", 5]
+    "complexity": ["error", 5],  // complexité cyclomatique
+    "max-statements": ["error", 15], // nombre de statements dans une fonction
+    "max-depth": ["error", 3], // profondeur de l'imbrication des blocs
+    "max-params": ["error", 4], // nombre de paramètres dans une fonction
+    "max-nested-callbacks": ["error", 2] // nombre de callbacks imbriqués
+
   }
 }
