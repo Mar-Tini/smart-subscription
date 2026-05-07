@@ -17,13 +17,13 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Run Linter (ESLint)
-        run: npx eslint billing.js || true
+        run: npx eslint billing.js
 
       - name: Run Tests + Coverage
-        run: npx jest --runTestsByPath ./billing.test.js --coverage --coverageDirectory=coverage
+        run: npx jest --coverage --coverageDirectory=coverage
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2
