@@ -23,7 +23,7 @@ jobs:
         run: npx eslint billing.js || true
 
       - name: Run Tests + Coverage
-        run: npm test
+        run: npx jest build-test.js --coverage
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2
