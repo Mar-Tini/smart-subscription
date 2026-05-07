@@ -1,0 +1,36 @@
+name: CI Quality Pipeline
+
+on:
+  push:
+    branches: [ "main", "feat/cicd" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Linter (ESLint)
+        run: npx eslint index.js billing.js || true
+
+      - name: Run Tests + Coverage
+        run: npm test
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v2
+        with:
+          args: >
+            -Dsonar.projectKey=TON_PROJECT_KEY
+            -Dsonar.organization=TON_ORGANISATION
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
