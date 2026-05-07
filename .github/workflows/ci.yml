@@ -20,7 +20,7 @@ jobs:
         run: npm install
 
       - name: Run Linter (ESLint)
-        run: npx eslint index.js billing.js || true
+        run: npx eslint billing.js || true
 
       - name: Run Tests + Coverage
         run: npm test
@@ -29,8 +29,8 @@ jobs:
         uses: SonarSource/sonarcloud-github-action@v2
         with:
           args: >
-            -Dsonar.projectKey=TON_PROJECT_KEY
-            -Dsonar.organization=TON_ORGANISATION
+            -Dsonar.projectKey=Mar-Tini_smart-subscription
+            -Dsonar.organization=mar-tini
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
